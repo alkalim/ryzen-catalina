@@ -1,9 +1,9 @@
-# Hackintosh: macOS Catalina on AMD - Lazy Man's Guide
+# Lazy Man's Guide: macOS Catalina on AMD
 
 ## Introduction
-There is no shortage of tools and guides about getting macOS Catalina working on an AMD system. But all these seem to be written by hard-core enthusiasts who live and breathe Hackintosh. So, many "obvious" steps are not covered or not given enough explanations.
+There is no shortage of tools and guides about getting macOS Catalina working on an AMD system. But all these seem to be produced by hard-core enthusiasts who live and breathe Hackintosh. So, many "obvious" steps are either not covered or not given enough explanations.
 
-For example, I have no idea what is DSDT nor how to patch it. I don't know what is _config.plist_ and how it relates to _patches.plist_. Oh, and then there are kexts and drivers. It's all very interesting and educating but the value of this knowledge is pretty low for me because by the time when I need to build my next Hackintosh system I'll either forget all the important details or my knowldege will become obsolete.
+DSDTs, SSDTs, drivers, patches, plists etc - these all seem both overwhelming and unnecessary unless you do Hackintoshes for living :) Even though it's all very interesting but the value of this knowledge is pretty low for me because by the time when I need to build my next Hackintosh system I'll either forget all the important details or my knowldege will become obsolete.
 
 This mini guide assumes you already have Windows 10 installed and want to dual boot.
 
