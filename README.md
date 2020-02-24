@@ -1,18 +1,15 @@
 # Lazy Man's Guide: macOS Catalina on AMD
 
 ## Introduction
-There is no shortage of tools and guides about getting macOS Catalina working on an AMD system. But all these seem to be produced by hard-core enthusiasts who live and breathe Hackintosh. So, many "obvious" steps are either not covered or not given enough explanations.
 
-DSDTs, SSDTs, drivers, patches, plists etc - these all seem both overwhelming and unnecessary unless you do Hackintoshes for living :) Even though it's all very interesting but the value of this knowledge is pretty low for me because by the time when I need to build my next Hackintosh system I'll either forget all the important details or my knowldege will become obsolete.
-
-This mini guide assumes you already have Windows 10 installed and want to dual boot.
+This mini-guide is based on my personal experience of installing Hackintosh Catalina on Ryzen from Windows 10. This repo also contains my OpenCore files and config just in case you have the same (or very similar) hardware.
 
 ## Resources and Tools
 ### References and Guides
 1. Amd-osx.com Vanilla Guide: https://vanilla.amd-osx.com/ (good starting point but very basic instructions)
 2. Snazzy Labs video: https://www.youtube.com/watch?v=l_QPLl81GrY (the mother of all AMD Catalina Hackintosh videos) - you should watch this before doing anything
-3. OpenCore AMD Guide: https://khronokernel-2.gitbook.io/opencore-vanilla-desktop-guide/amd-config.plist/amd-config - read only if you run into problems
-4. OpenCore Vanilla Desktop Guide for AMD: https://github.com/khronokernel/Opencore-Vanilla-Desktop-Guide/blob/master/AMD/AMD-config.md (good in-depth guide) - read only if you run into problems
+3. OpenCore AMD Vanilla Desktop Guide: https://khronokernel-2.gitbook.io/opencore-vanilla-desktop-guide/amd-config.plist/amd-config - read only if you run into problems
+
 ### Software
 1. gibMacOS: https://github.com/corpnewt/gibMacOS
 2. SSDT Time: https://github.com/corpnewt/SSDTTime
@@ -21,15 +18,17 @@ This mini guide assumes you already have Windows 10 installed and want to dual b
 5. Kext descriptions: https://kb.amd-osx.com/guides/MJ/kexts.html
 6. ProperTree: https://github.com/corpnewt/ProperTree
 ### Hardware
-1. Any USB 3.0 Flash Drive
+1. Separate disk to install macOS
+2. Any USB 3.0 Flash Drive
 
 ## System Specs
-These are the specs for my AMD system. The files in this repo (OpenCore configuration, .kexts etc) work on this hardware. If you have another MB - do not even bother. If you have the same MB but another CPU or video - you can try before spending much more time on your own config.
-* Ryzen 2700X CPU, not overclocked
-* ASRock B450M Pro4 MB
-* G-Skill Ripjaws V 2x16Gb 3200 CL16 RAM
-* Sapphire RX 570 4Gb
-* A-Data 240Gb SATA3 SSD
+These are the specs for my AMD system. Files in this repo (OpenCore configuration, drivers and .kexts) work on this hardware.
+
+* CPU Ryzen 2700X, not overclocked
+* Motherboard ASRock B450M Pro4
+* RAM G-Skill Ripjaws V 2x16Gb 3200 CL16
+* Video Sapphire RX 570 4Gb
+* SSD A-Data 240Gb SATA3
 
 ## Random Notes
 
