@@ -1311,8 +1311,7 @@
 	<key>Misc</key>
 	<dict>
 		<key>BlessOverride</key>
-		<array>
-		</array>
+		<array/>
 		<key>Boot</key>
 		<dict>
 			<key>BuiltinTextRenderer</key>
@@ -1386,8 +1385,7 @@
 			<integer>0</integer>
 		</dict>
 		<key>Tools</key>
-		<array>
-		</array>
+		<array/>
 	</dict>
 	<key>NVRAM</key>
 	<dict>
@@ -1462,7 +1460,7 @@
 			<key>AdviseWindows</key>
 			<true/>
 			<key>MLB</key>
-			<string>C02851101QXJG368C</string>
+			<string>#### CHANGE_ME ####</string>
 			<key>ROM</key>
 			<data>ESIzAAAA</data>
 			<key>SpoofVendor</key>
@@ -1470,9 +1468,9 @@
 			<key>SystemProductName</key>
 			<string>iMacPro1,1</string>
 			<key>SystemSerialNumber</key>
-			<string>C02XV0UEHX87</string>
+			<string>#### CHANGE_ME ####</string>
 			<key>SystemUUID</key>
-			<string>953009C5-EF7F-41D0-8E47-9FDC9545A313</string>
+			<string>#### CHANGE_ME ####</string>
 		</dict>
 		<key>UpdateDataHub</key>
 		<true/>
