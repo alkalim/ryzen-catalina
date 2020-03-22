@@ -13,11 +13,14 @@
   - [Step 3](#step-3)
   - [Step 4](#step-4)
   - [Step 5](#step-5)
+  - [Step 6 (Optional)](#step-6-optional)
 - [Known Issues](#known-issues)
   
 ## Introduction
 
-This mini-guide is based on my personal experience of installing Hackintosh Catalina on Ryzen from Windows 10. This repo also contains my OpenCore files and config just in case you have the same (or very similar) hardware.
+This mini-guide is based on my personal experience of installing Hackintosh Catalina on Ryzen from Windows 10. This repo also contains my OpenCore files (for versions 0.5.5 and 0.5.6) and config just in case you have the same (or very similar) hardware. 
+
+The master branch updated to OpenCore 0.5.6, if you need 0.5.5 (or found that 0.5.6 doesn't work for you) you can get it by tag `opencore-0.5.5`.
 
 ## Resources and Tools
 ### References and Guides
@@ -47,13 +50,13 @@ These are the specs for my AMD system. Files in this repo (OpenCore configuratio
 
 ## Random Notes
 
-1. Clover vs OpenCore. Don't waste your time on Clover, go with OpenCore ("OC"). Even though Clover is simpler, AMD Hackintoshers lean toward OC. macOS Catalina 10.15.3 won't boot from Clover at all.
-2. Catalina 10.15.0-3 are still very buggy. If you find any bugs these may be genuine macOS problems, not problems with your setup. Do some search to confirm.
+1. Clover vs OpenCore. If you're building modern setup don't waste your time on Clover, go with OpenCore ("OC"). Even though Clover is simpler, most modern systems use OC. The current macOS Catalina (10.15.3) won't boot from Clover at all.
+2. Catalina versions 10.15.0-3 are still very buggy. If you find any bugs these may be genuine macOS problems, not problems with your setup. Do some search to confirm.
 3. If you plan to dualboot, be careful during the installation. You may kill your Windows boot partition.
 
 ## Instructions
 
-If your hardware is close enough to mine (same MB, some Ryzen CPU, Polaris graphics card) you can use my OpenCore files from this repo (just put these files on to USB drive formatted as FAT32) and proceed to Step 2.
+If your hardware is close enough to mine (same MB, some Ryzen CPU, Polaris graphics card) you can use my OC files from this repo (just put these files on to USB drive formatted as FAT32) and proceed to [Step 2](#step-2). Just remember you *must* change serial numbers to the ones you generated yourself.
 
 ### Step 1
 
@@ -72,8 +75,9 @@ Watch that Snazzy Labs video. Pay attention to video description. There are usef
 Even though Snazzy Labs suggest you to boot from the USB drive right away, you need to do few more things with your _config.plist_ before you can proceed.
 
 1. Relax security settings, otherwise you will not be able to boot:
-   * Set **RequireVault** and **RequireSignature** to False in _config.plist_ (use Ctrl+F to lookup by key).
-   * Also, set *ScanPolicy* to 0.
+   * For OC 0.5.5: set **Misc** -> **Security** -> **RequireVault** and **RequireSignature** to *False* in _config.plist_ (use Ctrl+F to lookup by key).
+   * For OC 0.5.6: set **Misc** -> **Security** -> **Vault** to *Optional* 
+   * Also, set **ScanPolicy** to 0.
 2. Run _GenSMBIOS_, select option 3, enter _iMacPro1,1_ you'll get result like this:
    ```
       #######################################################
@@ -114,11 +118,22 @@ Once you made sure your macOS works properly you need to copy your OC boot files
 
 ### Step 5
 
-Once you have a working macOS system there may be one more thing to fix. For iMessage and other Apple services (such as FaceTime and Siri) you need to make macOS to recognize your network interface *en0* as built-in. To check if the interface is built-in you can use [DPCIManager](https://sourceforge.net/projects/dpcimanager/). Then you have to find a PCI path for your Ethernet adapter and add this path to _config.plist_ to **DeviceProperties** -> **Add** section like this:
+Once you have a working macOS system there may be one more thing to fix. For iMessage and other Apple services (such as FaceTime and Siri) you need to make macOS to recognize your network interface *en0* as built-in. To check if the interface is built-in you can use [DPCIManager](https://sourceforge.net/projects/dpcimanager/):
 
-![alt](pci_path.png)
+![Ethernet Built-in](ethernet_builtin.png)
+
+If it's not built-in you need to find a PCI path for your Ethernet adapter and add this path to _config.plist_ to **DeviceProperties** -> **Add** section like this:
+
+![DPCIManager](pci_path.png)
+
+You can find your PCI path by following [these instructions](https://khronokernel-2.gitbook.io/opencore-vanilla-desktop-guide/extras/iservices#fixing-en0).
+
+### Step 6 (Optional)
+
+You may want to secure your system by signing your EFI boot files. Open _config.plist_ once again and change **Misc** -> **Security** -> **Vault** to *Secure*. Then go to unpacked OC installation folder, cd to *Utilities/CreateVault* and run *sign.command*. Detailed instructions are [here](https://khronokernel-2.gitbook.io/opencore-vanilla-desktop-guide/extras/security#vault).
 
 ## Known Issues
 
 * USB 2.0 ports don't work in this config. This issue is fixable, but I've got plenty of USB 3.0+ ports so this doesn't bother me.
-* Sleep mode doesn't work. There is no known fix to me for Catalina. If sleep is really important for you try Mojave.
+* Sleep mode doesn't work. There is no known universal fix for Catalina. If sleep is really important for you try Mojave.
+* Docker Desktop doesn't work. It uses Intel-specific virtualization which apparently won't work with Ryzen.
