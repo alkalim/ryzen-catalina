@@ -18,15 +18,13 @@
   
 ## Introduction
 
-This mini-guide is based on my personal experience of installing Hackintosh Catalina on Ryzen from Windows 10. This repo also contains my OpenCore files (for versions 0.5.5 and 0.5.6) and config just in case you have the same (or very similar) hardware. 
-
-The master branch updated to OpenCore 0.5.6, if you need 0.5.5 (or found that 0.5.6 doesn't work for you) you can get it by tag `opencore-0.5.5`.
+This mini-guide is based on my personal experience of installing Hackintosh Catalina on a Ryzen system running Windows 10. No prior Hackintosh knowledge is required to follow this guide. This repo also contains my OpenCore files (for versions 0.5.5, 0.5.6, 0.5.8) and config.plist just in case you have the same (or very similar) hardware. 
 
 ## Resources and Tools
 ### References and Guides
-1. Amd-osx.com Vanilla Guide: https://vanilla.amd-osx.com/ (good starting point but very basic instructions)
+1. Amd-osx.com Vanilla Guide: https://vanilla.amd-osx.com/ (good starting point but instructions are pretty basic)
 2. Snazzy Labs video: https://www.youtube.com/watch?v=l_QPLl81GrY (the mother of all AMD Catalina Hackintosh videos) - you should watch this before doing anything
-3. OpenCore AMD Vanilla Desktop Guide: https://khronokernel-2.gitbook.io/opencore-vanilla-desktop-guide/amd-config.plist/amd-config - read only if you run into problems
+3. OpenCore Desktop Guide: https://dortania.github.io/OpenCore-Desktop-Guide/ and especially AMD part: https://dortania.github.io/OpenCore-Desktop-Guide/AMD/zen.html (there is too much info, woth reading only if you ran into problems)
 
 ### Software
 1. gibMacOS: https://github.com/corpnewt/gibMacOS
@@ -40,18 +38,19 @@ The master branch updated to OpenCore 0.5.6, if you need 0.5.5 (or found that 0.
 2. Any USB 3.0 Flash Drive
 
 ## System Specs
+
 These are the specs for my AMD system. Files in this repo (OpenCore configuration, drivers and .kexts) work on this hardware.
 
 * CPU Ryzen 2700X, not overclocked
 * Motherboard ASRock B450M Pro4
 * RAM G-Skill Ripjaws V 2x16Gb 3200 CL16
 * Video Sapphire RX 570 4Gb
-* SSD A-Data 240Gb SATA3
+* SSD Crucial MX500 500Gb SATA3
 
 ## Random Notes
 
-1. Clover vs OpenCore. If you're building modern setup don't waste your time on Clover, go with OpenCore ("OC"). Even though Clover is simpler, most modern systems use OC. The current macOS Catalina (10.15.3) won't boot from Clover at all.
-2. Catalina versions 10.15.0-3 are still very buggy. If you find any bugs these may be genuine macOS problems, not problems with your setup. Do some search to confirm.
+1. Clover vs OpenCore. If you're building a modern setup don't waste your time on Clover, go with OpenCore ("OC"). Clover is simpler but OC is newer. Only Catalinas 10.15.2 and older will boot from Clover. Newer versions (10.15.3 and up) require OC.
+2. Catalina versions 10.15.* are still pretty buggy. If stumble upon any bugs these may be genuine macOS problems, not problems with your setup.
 3. If you plan to dualboot, be careful during the installation. You may kill your Windows boot partition.
 
 ## Instructions
@@ -76,7 +75,7 @@ Even though Snazzy Labs suggest you to boot from the USB drive right away, you n
 
 1. Relax security settings, otherwise you will not be able to boot:
    * For OC 0.5.5: set **Misc** -> **Security** -> **RequireVault** and **RequireSignature** to *False* in _config.plist_ (use Ctrl+F to lookup by key).
-   * For OC 0.5.6: set **Misc** -> **Security** -> **Vault** to *Optional* 
+   * For OC 0.5.6 and up: set **Misc** -> **Security** -> **Vault** to *Optional* 
    * Also, set **ScanPolicy** to 0.
 2. Run _GenSMBIOS_, select option 3, enter _iMacPro1,1_ you'll get result like this:
    ```
