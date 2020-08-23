@@ -15,6 +15,7 @@
   - [Step 2 - Update config.plist](#step-2---update-configplist)
   - [Step 3 - Install](#step-3---install)
   - [Step 4 - Boot from SSD](#step-4---boot-from-ssd)
+    - [Step 4.1 - Dual boot](#step-41---dual-boot)
   - [Step 5 - Make Ethernet "Built-in"](#step-5---make-ethernet-built-in)
   - [Step 6 (Optional) - Secure Your Installation](#step-6-optional---secure-your-installation)
 - [Known Issues](#known-issues)
@@ -39,12 +40,14 @@ process involved dealing with MBR records.
 * _ESP_ - EFI System Partition. ESP is a disk partition formatted as FAT32 and designated specifically for booting.
 * _Plist_ - Property list. Plist is a file in an XML format used by macOS and many macOS-related tools and programs to store
 settings and object properties.
+* _Boot loader_ - A software responsible for booting macOS. Currently there are two boot loaders in active use - Clover and OpenCore.
 
 ## Resources and Tools
 ### References and Guides
 1. Amd-osx.com Vanilla Guide: https://vanilla.amd-osx.com/ (good starting point but instructions are pretty basic)
 2. Snazzy Labs video: https://www.youtube.com/watch?v=l_QPLl81GrY (the mother of all AMD Catalina Hackintosh videos) - you should watch this before doing anything
-3. OpenCore Install Guide: https://dortania.github.io/OpenCore-Install-Guide/ and especially AMD part: https://dortania.github.io/OpenCore-Install-Guide/AMD/zen.html (there is too much info, worth reading only if you ran into problems)
+3. OpenCore Install Guide: https://dortania.github.io/OpenCore-Install-Guide/ and especially AMD part: https://dortania.github.io/OpenCore-Install-Guide/AMD/zen.html (an official guide, read it if you ran into problems)
+4. OpenCore Vanilla Guide, Step by Step: [https://www.olarila.com/topic/8918-opencore-vanilla-guide](https://www.olarila.com/topic/8918-opencore-vanilla-guide-step-by-step-full-dsdt-patched-or-ssdt/) by MaLd0n (very long and detailed sequence of instructions, covers AMD and Intel)
 
 ### Required Software
 The software below is required for installation from Windows.
@@ -63,8 +66,8 @@ You will need some kexts to install your system:
 3. rEFInd: https://www.rodsbooks.com/refind/ (EFI)
 
 ### Hardware
-1. Separate SSD disk to install macOS
-2. Any USB 3.0 Flash Drive
+1. Separate SSD disk to install macOS. Even though there are ways to install Windows and macOS on the same drive you don't want to do this.
+2. Any USB 3.0 Flash Drive to store macOS installation and boot files.
 
 ## System Specs
 
@@ -76,11 +79,13 @@ These are the specs for my AMD system. Files in this repo (OpenCore configuratio
 * Video Sapphire RX 570 4Gb
 * SSD Crucial MX500 500Gb SATA3
 
+These files will also probably work with RX 560, RX 580 and RX 590 GPUs. RX 550 won't work.
+
 ## Assorted Notes
 
-1. Clover vs OpenCore. You will find a lot of info about Clover-based builds. But you need to go with OpenCore ("OC"). Even though Clover is easier to configure, new Catalinas (10.15.3 and up) only work with OC.
-2. Catalina versions 10.15.* are still pretty buggy. If stumble upon any bugs these may be genuine macOS problems, not problems with your setup.
-3. If you plan to dualboot, be careful during the installation. You may kill your Windows boot partition.
+1. Boot loaders - Clover vs OpenCore. You will find a lot of info about Clover-based builds. But you need to go with OpenCore("OC"). Even though Clover is easier to configure, new Catalinas (10.15.2 and up) only work with OC. [More info](https://dortania.github.io/OpenCore-Install-Guide/why-oc.html)
+2. All Catalina versions (10.15.*) are still buggy. If you stumble upon any bugs these may be genuine macOS problems, not issues with your setup.
+3. If you plan to dualboot (and you probably do), be careful during the installation! macOS will kill your Windows partition in a hearbeat if you specify a wrong disk or a wrong partition. There is no undo.
 
 ## Instructions
 
@@ -141,9 +146,19 @@ It goes without saying you need to be very careful when selecting your install p
 
 ### Step 4 - Boot from SSD
 
-If you came from Windows (or even Linux) this step is not immediately obvious. Usually, after installing Windows you can boot into it without problems, because Windows will create all the boot partitions and loaders automatically. Not the case with Hackintosh. 
+If you came from Windows or Linux this step is not immediately obvious. After successful installation Windows just boots
+without problems from the target disk. Under the hood, Windows creates a boot partition (ESP) which "knows" what and how to boot. Unfortunately, it's not the case with Hackintosh.
 
-Once you made sure your macOS works properly you need to copy your OC boot files from the USB drive to some boot partition on your SSD (ESP partition). All you need is some small partition (50+ Mb) formatted as FAT32. Just copy all files from USB drive to this partition and you are done! You can use [ESP Mounter Pro](https://www.insanelymac.com/forum/files/file/566-esp-mounter-pro/) to mount the ESP partition from macOS.
+Once you made sure your macOS works properly you need to copy your OC boot files from the USB drive to some boot partition (ESP) on your SSD. All you need is some small partition (50+ Mb) formatted as FAT32. Just copy all files from USB drive to this partition and you are done! You can use [ESP Mounter Pro](https://www.insanelymac.com/forum/files/file/566-esp-mounter-pro/) to mount the ESP partition from macOS.
+
+#### Step 4.1 - Dual boot
+
+There are several ways to do dual boot on an OC-based Hackintosh system. The first option is not to do anything. OpenCore supports booting other OSes out of the box. You can stick with the default OC boot menu if OC successfully finds your other operating systems and these boot without problems. Second, you can use `Bootstrap.efi` [method](https://dortania.github.io/OpenCore-Post-Install/multiboot/bootstrap.html), available in OpenCore since 0.5.8. Third, you can use [OpenCanopy](https://dortania.github.io/OpenCore-Post-Install/cosmetic/gui.html), a GUI shell for OpenCore available since 0.5.7.
+
+However, I prefer [rEFInd](https://www.rodsbooks.com/refind/). rEFInd is a very flexible boot manager capable of booting virtually everything. The main advantage of rEFInd over OC-based methods is that when you boot your Linux or Windows OS you can
+be sure they see unmodified ACPI tables. Another reason to use OS-agnostic boot manager (like rEFInd) is that it will boot
+your Linux or Windows even if you screw up your OC partition. The only disadvantage of rEFInd is that it can be pretty difficult
+to configure. Please follow [this guide](https://schdck.github.io/Installing-refind-from-Windows-10) for detailed Windows installation instructions.
 
 ### Step 5 - Make Ethernet "Built-in"
 
@@ -163,13 +178,15 @@ You may want to secure your system by signing your EFI boot files. Open _config.
 
 ## Known Issues
 
-* ~~USB 2.0 ports don't work in this config. This issue is fixable, but I've got plenty of USB 3.0+ ports so this doesn't bother me.~~ _these work now_
+* ~~USB 2.0 ports don't work in this config. This issue is fixable, but I've got plenty of USB 3.0+ ports so this doesn't bother me.~~ _works now_
 * Sleep mode doesn't work. There is no known universal fix for Catalina. If you really need a sleep function, try Mojave.
-* Docker Desktop doesn't work. It uses Intel-specific virtualization which apparently won't work with Ryzen.
+* Docker Desktop doesn't work. Docker uses Intel-specific virtualization which apparently won't work with Ryzen. Some people
+reported Docker works ok inside VirtualBox.
 * The system boots very slowly (15-20 seconds to OC boot menu) with OC 0.5.9. It wasn't the case with older OC versions.
-* macOS recognizes my random Gembird USB Bluetooth 4.0 dongle but the keyboard doesn't pair. Unfortunately, macOS is very picky when it comes to WiFi and BT4.0 support.
+* macOS recognizes my random Gembird USB Bluetooth 4.0 dongle but the keyboard doesn't pair. Unfortunately, macOS is very picky when it comes to WiFi and Bluetooth support.
 
 ## Update History
 
+* _2020/08/22_ - Added more details to the guide.
 * _2020/08/01_ - Added OpenCore 0.5.9, updated to the latest Kexts (Linu, VirtualSMC, Whatevergreen etc), added AMD-USB-Map.kext
 for USB 2.0 support (thanks to GhostBoy805 and [this Reddit thread](https://www.reddit.com/r/hackintosh/comments/f2azi9/no_usb_20_asrock_b450_pro4/)), removed NullCPUPowerManagement.kext.
