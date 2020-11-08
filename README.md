@@ -23,31 +23,27 @@
   
 ## Introduction
 
-This guide is based on my personal experience of installing Hackintosh Catalina on a Ryzen system running Windows 10.
-I created this guide specifically for newcomers (like myself) because I found it difficult to start building my
-own system without spending many hours on reading forums and serious in-depth guides. Some people just want an easy
-one-off exercise and this guide tries to help. No prior Hackintosh knowledge is required to follow this guide.
+This guide is based on my personal experience of installing Hackintosh macOS Catalina on an AMD Ryzen system (sometimes called "Ryzentosh") running Windows 10. I created this guide specifically for newcomers (like myself) because I found it difficult to start building my own system without spending many hours on reading forums and serious in-depth guides. Some people just want an easy one-off exercise and this guide tries to help. No prior Hackintosh knowledge is required to follow this guide.
 
-This repo also contains my OpenCore files (for versions 0.5.5-0.5.6, 0.5.8-0.5.9) and config.plist just in case you
-have the same (or very similar) hardware. Do not use these files without changes unless you have the same
-motherboard model.
+This repo also contains my OpenCore ("OC") files (for selected OC versions from 0.5.5 and up) and `config.plist` just in case you have the same (or very similar) hardware. Do not use these files without changes unless you have the same motherboard model.
 
 ## Terminology
 
 * _Kext_ - macOS Kernel EXTension. Kext is much like a device driver in Windows. Hackintosh requires some Kexts to boot macOS properly.
 * _EFI_ - Extensible Firmware Inrterface. Basically, EFI is a new way to boot operating system. Prior to EFI booting
 process involved dealing with MBR records.
-* _ESP_ - EFI System Partition. ESP is a disk partition formatted as FAT32 and designated specifically for booting.
-* _Plist_ - Property list. Plist is a file in an XML format used by macOS and many macOS-related tools and programs to store
+* _ESP_ - EFI System Partition. ESP is a disk partition formatted as FAT32 and designated specifically for booting. Some also insist that ESP must have volume label "EFI".
+* _Plist_ - Property list. Plist is a file in an XML format used by macOS and many macOS-related tools and programs to store.
 settings and object properties.
 * _Boot loader_ - A software responsible for booting macOS. Currently there are two boot loaders in active use - Clover and OpenCore.
 
 ## Resources and Tools
+
 ### References and Guides
-1. Amd-osx.com Vanilla Guide: https://vanilla.amd-osx.com/ (good starting point but instructions are pretty basic)
-2. Snazzy Labs video: https://www.youtube.com/watch?v=l_QPLl81GrY (the mother of all AMD Catalina Hackintosh videos) - you should watch this before doing anything
-3. OpenCore Install Guide: https://dortania.github.io/OpenCore-Install-Guide/ and especially AMD part: https://dortania.github.io/OpenCore-Install-Guide/AMD/zen.html (an official guide, read it if you ran into problems)
-4. OpenCore Vanilla Guide, Step by Step: [https://www.olarila.com/topic/8918-opencore-vanilla-guide](https://www.olarila.com/topic/8918-opencore-vanilla-guide-step-by-step-full-dsdt-patched-or-ssdt/) by MaLd0n (very long and detailed sequence of instructions, covers AMD and Intel)
+1. Snazzy Labs video: https://www.youtube.com/watch?v=l_QPLl81GrY (the mother of all AMD Catalina Hackintosh videos) - you should watch this before doing anything
+2. OpenCore Install Guide: https://dortania.github.io/OpenCore-Install-Guide/ and especially AMD part: https://dortania.github.io/OpenCore-Install-Guide/AMD/zen.html (an official guide, read it if you ran into problems)
+3. OpenCore Vanilla Guide, Step by Step: [https://www.olarila.com/topic/8918-opencore-vanilla-guide](https://www.olarila.com/topic/8918-opencore-vanilla-guide-step-by-step-full-dsdt-patched-or-ssdt/) by MaLd0n (very long and detailed sequence of instructions, covers AMD and Intel)
+4. AMD OS X forums: https://forum.amd-osx.com/index.php - Ryzentosh community
 
 ### Required Software
 The software below is required for installation from Windows.
@@ -83,7 +79,7 @@ These files will also probably work with RX 560, RX 580 and RX 590 GPUs. RX 550 
 
 ## Assorted Notes
 
-1. Boot loaders - Clover vs OpenCore. You will find a lot of info about Clover-based builds. But you need to go with OpenCore("OC"). Even though Clover is easier to configure, new Catalinas (10.15.2 and up) only work with OC. [More info](https://dortania.github.io/OpenCore-Install-Guide/why-oc.html)
+1. Boot loaders - Clover vs OpenCore. If you google some generic terms like "Hackintosh build" you may occasionally find info related to Clover. Ignore it! Clover is a legacy boot loader and does not support the most recent versions of macOS. [More info](https://dortania.github.io/OpenCore-Install-Guide/why-oc.html)
 2. All Catalina versions (10.15.*) are still buggy. If you stumble upon any bugs these may be genuine macOS problems, not issues with your setup.
 3. If you plan to dualboot (and you probably do), be careful during the installation! macOS will kill your Windows partition in a hearbeat if you specify a wrong disk or a wrong partition. There is no undo.
 
@@ -109,7 +105,7 @@ Even though Snazzy Labs suggest you to boot from the USB drive right away, you n
 
 1. Relax security settings, otherwise you will not be able to boot:
    * For OC 0.5.5: set **Misc** -> **Security** -> **RequireVault** and **RequireSignature** to *False* in _config.plist_ (use Ctrl+F to lookup by key).
-   * For OC 0.5.6 and up: set **Misc** -> **Security** -> **Vault** to *Optional* 
+   * For OC 0.5.6+: set **Misc** -> **Security** -> **Vault** to *Optional* 
    * Also, set **ScanPolicy** to 0.
 2. Run _GenSMBIOS_, select option 3, enter _iMacPro1,1_ you'll get result like this:
    ```
@@ -132,9 +128,10 @@ Even though Snazzy Labs suggest you to boot from the USB drive right away, you n
    3. **SystemUUID** to the value generated by _GenSMBIOS_
    4. **MLB** to the value generated by _GenSMBIOS_ (**Board Serial**)
 
-4. Set **Quirks** -> **ProvideConsoleGop** to True
-5. Set **Quirks** -> **DummyPowerManagement** to True
+4. Set **Quirks** -> **ProvideConsoleGop** to True (or set **UEFI** -> **Output** -> **ProvideConsoleGop** to True on OC 0.5.6+)
+5. Set **Quirks** -> **DummyPowerManagement** to True (or set **Kernel** -> **Emulate** -> **DummyPowerManagement** to True on OC 0.6.2+)
 6. Set **NVRAM** -> **UUID** -> **boot-args** to `-v keepsyms=1 debug=0x100 npci=0x2000 alcid=1`. The latter option is needed for onboard audio of B450M Pro4. If `alcid=1` doesn't work try some other values: 2-5, 7, 12, 15-18, 28, 31, 90, 92, 97, 99 as described [here](https://github.com/acidanthera/applealc/wiki/supported-codecs).
+7. For OC 0.5.8+ set **Misc** -> **Security** -> **BootProtect** to None unless you want to always boot OC first regardless of your current boot order in BIOS. [More info](https://dortania.github.io/OpenCore-Post-Install/multiboot/bootstrap.html)
 
 ### Step 3 - Install
 
@@ -187,6 +184,7 @@ reported Docker works ok inside VirtualBox.
 
 ## Update History
 
+* _2020/11/08_ - Updated OpenCore 0.6.2, updated `config.plist` for new OC layout, applied new [AMD plist patches](https://github.com/AMD-OSX/AMD_Vanilla/tree/opencore/17h), updated to the latest Kexts (AppleALC, Lilu, WhateverGreen, VirtualSMC), updated README.md.
 * _2020/08/22_ - Added more details to the guide.
-* _2020/08/01_ - Added OpenCore 0.5.9, updated to the latest Kexts (Linu, VirtualSMC, Whatevergreen etc), added AMD-USB-Map.kext
+* _2020/08/01_ - Added OpenCore 0.5.9, updated to the latest Kexts (Lilu, VirtualSMC, Whatevergreen etc), added AMD-USB-Map.kext
 for USB 2.0 support (thanks to GhostBoy805 and [this Reddit thread](https://www.reddit.com/r/hackintosh/comments/f2azi9/no_usb_20_asrock_b450_pro4/)), removed NullCPUPowerManagement.kext.
