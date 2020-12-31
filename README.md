@@ -68,7 +68,8 @@ Again, more information [https://dortania.github.io/OpenCore-Install-Guide/ktext
 ### Useful Software
 1. ESP Mounter Pro: https://www.insanelymac.com/forum/files/file/566-esp-mounter-pro/ (macOS)
 2. DPCIManager: https://sourceforge.net/projects/dpcimanager/ (macOS)
-3. rEFInd: https://www.rodsbooks.com/refind/ (EFI)
+3. Hackintool: https://github.com/headkaze/Hackintool (macOS)
+4. rEFInd: https://www.rodsbooks.com/refind/ (EFI)
 
 ### Hardware
 1. Separate SSD disk to install macOS. Even though there are ways to install Windows and macOS on the same drive you don't want to do this.
@@ -169,7 +170,7 @@ to configure. Please follow [this guide](https://schdck.github.io/Installing-ref
 
 ### Step 5 - Make Ethernet "Built-in"
 
-Once you have a working macOS system there may be one more thing to fix. For iMessage and other Apple services (such as FaceTime and Siri) you need to make macOS to recognize your network interface *en0* as built-in. To check if the interface is built-in you can use [DPCIManager](https://sourceforge.net/projects/dpcimanager/):
+Once you have a working macOS system there may be one more thing to fix. For iMessage and other Apple services (such as FaceTime and Siri) you need to make macOS to recognize your network interface *en0* as built-in. To check if the interface is built-in you can use [DPCIManager](https://sourceforge.net/projects/dpcimanager/) or [Hackintool](https://github.com/headkaze/Hackintool):
 
 <img alt="Ethernet Built-in" src="ethernet_builtin.png" width="600"/>
 
@@ -177,7 +178,7 @@ If it's not built-in you need to find a PCI path for your Ethernet adapter and a
 
 <img alt="Ethernet Built-in" src="pci_path.png" width="600"/>
 
-You can find your PCI path by following [these instructions](https://khronokernel-2.gitbook.io/opencore-vanilla-desktop-guide/extras/iservices#fixing-en0).
+You can find your PCI path by following [these instructions](https://dortania.github.io/OpenCore-Post-Install/universal/iservices.html#fixing-en0).
 
 ### Step 6 (Optional) - Secure Your Installation
 
