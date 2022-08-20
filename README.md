@@ -23,6 +23,8 @@
   
 ## Introduction
 
+_**Attention! This repository is archived and is no longer maintained. Neither this guide nor files are up to date with the latest versions of OpenCore. Please visit the official [OpenCore guide](https://dortania.github.io/OpenCore-Install-Guide/) for the up to date information.**_
+
 This guide is based on my personal experience of installing Hackintosh macOS Catalina on an AMD Ryzen system (sometimes called "Ryzentosh") running Windows 10. I created this guide specifically for newcomers (like myself) because I found it difficult to start building my own system without spending a lot of time on documentation and forums. Some people just want an easy one-off exercise and this guide tries to help. No prior Hackintosh knowledge is required to follow this guide.
 
 This repo also contains my OpenCore ("OC") files (for selected OC versions from 0.5.5 and up) and `config.plist` just in case you have the same (or very similar) hardware. Do not use these files without changes unless you have the same motherboard model.
